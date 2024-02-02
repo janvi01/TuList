@@ -5,8 +5,9 @@ import {
   collection,
   addDoc,
   Timestamp,
-  query,
   getDocs,
+  deleteDoc,
+  doc,
 } from "firebase/firestore";
 import PlaylistList from "./PlaylistList";
 
@@ -15,14 +16,21 @@ const PlaylistInput = () => {
   const [playlists, setPlaylists] = useState([]);
   const [isValidUrl, setIsValidUrl] = useState(true);
 
-  useEffect(() => {
-    const fetchPlaylists = async () => {
+  const fetchPlaylists = async () => {
+    try {
       const playlistsCollection = collection(db, "playlists");
       const playlistsSnapshot = await getDocs(playlistsCollection);
-      const playlistsData = playlistsSnapshot.docs.map((doc) => doc.data());
+      const playlistsData = playlistsSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       setPlaylists(playlistsData);
-    };
+    } catch (error) {
+      console.error("Error fetching playlists:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchPlaylists();
   }, []);
 
@@ -42,16 +50,23 @@ const PlaylistInput = () => {
         });
 
         setPlaylistUrl("");
-
-        const playlistsSnapshot = await getDocs(playlistsCollection);
-        const playlistsData = playlistsSnapshot.docs.map((doc) => doc.data());
-        setPlaylists(playlistsData);
+        fetchPlaylists();
         setIsValidUrl(true);
       } else {
         setIsValidUrl(false);
       }
     } catch (error) {
       console.error("Error adding playlist:", error);
+    }
+  };
+
+  const handleDeletePlaylist = async (playlistId) => {
+    try {
+      const playlistsCollection = collection(db, "playlists");
+      await deleteDoc(doc(playlistsCollection, playlistId));
+      fetchPlaylists();
+    } catch (error) {
+      console.error("Error deleting playlist:", error);
     }
   };
 
@@ -63,7 +78,7 @@ const PlaylistInput = () => {
           placeholder="Enter YouTube Playlist URL"
           value={playlistUrl}
           onChange={(e) => setPlaylistUrl(e.target.value)}
-          className={`border ${
+          className={`border text-black ${
             isValidUrl ? "border-gray-300" : "border-red-500"
           } p-2 mr-2 rounded-md focus:outline-none focus:ring focus:border-blue-500`}
         />
@@ -80,7 +95,10 @@ const PlaylistInput = () => {
           Please enter a valid YouTube URL.
         </p>
       )}
-      <PlaylistList playlists={playlists} />
+      <PlaylistList
+        playlists={playlists}
+        onDeletePlaylist={handleDeletePlaylist}
+      />
     </div>
   );
 };
