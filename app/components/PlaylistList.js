@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
+import PlaylistItem from "./PlaylistItem";
 
 const PlaylistList = ({ playlists, onDeletePlaylist }) => {
   const [playlistDetails, setPlaylistDetails] = useState({});
+  const [loading, setLoading] = useState(true);
   const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
 
   useEffect(() => {
     const fetchPlaylistDetails = async (url) => {
       try {
+        // Check if playlist details are already fetched
+        if (playlistDetails[url]) {
+          return;
+        }
+
         // Extract playlist ID from YouTube URL
         const playlistId = getPlaylistIdFromUrl(url);
 
@@ -14,18 +21,17 @@ const PlaylistList = ({ playlists, onDeletePlaylist }) => {
         const response = await fetch(
           `https://www.googleapis.com/youtube/v3/playlists?part=snippet&key=${apiKey}&maxResults=1&id=${playlistId}`
         );
-        console.log(apiKey);
 
         if (response.ok) {
           const data = await response.json();
 
           if (data.items.length > 0) {
-            const playlistDetails = data.items[0].snippet;
+            const playlistDetailsData = data.items[0].snippet;
             setPlaylistDetails((prevDetails) => ({
               ...prevDetails,
               [url]: {
-                title: playlistDetails.title,
-                thumbnailUrl: playlistDetails.thumbnails.default.url,
+                title: playlistDetailsData.title,
+                thumbnailUrl: playlistDetailsData.thumbnails.default.url,
               },
             }));
           } else {
@@ -53,11 +59,15 @@ const PlaylistList = ({ playlists, onDeletePlaylist }) => {
       }
     };
 
-    playlists.forEach((playlist) => {
-      if (!playlistDetails[playlist.url]) {
-        fetchPlaylistDetails(playlist.url);
-      }
-    });
+    const fetchData = async () => {
+      setLoading(true);
+      await Promise.all(
+        playlists.map((playlist) => fetchPlaylistDetails(playlist.url))
+      );
+      setLoading(false);
+    };
+
+    fetchData();
   }, [playlists]);
 
   const getPlaylistIdFromUrl = (url) => {
@@ -66,37 +76,20 @@ const PlaylistList = ({ playlists, onDeletePlaylist }) => {
     return urlParams.get("list");
   };
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <div className="max-w-md bg-white border rounded-md p-4">
-      <h2 className="text-xl font-semibold mb-4">Playlists</h2>
+      <h2 className="text-xl font-semibold mb-4 text-black">Playlists</h2>
       {playlists.map((playlist) => (
-        <div
+        <PlaylistItem
           key={playlist.id}
-          className="flex justify-between items-center border-b py-2"
-        >
-          {playlistDetails[playlist.url] ? (
-            <>
-              <div className="flex items-center">
-                <img
-                  src={playlistDetails[playlist.url].thumbnailUrl}
-                  alt="Playlist Thumbnail"
-                  className="w-12 h-12 mr-2 rounded-md"
-                />
-                <p className="text-blue-500">
-                  {playlistDetails[playlist.url].title}
-                </p>
-              </div>
-            </>
-          ) : (
-            <p className="text-blue-500">{playlist.url}</p>
-          )}
-          <button
-            onClick={() => onDeletePlaylist(playlist.id)}
-            className="text-red-500 hover:text-red-700 focus:outline-none focus:text-red-700"
-          >
-            Delete
-          </button>
-        </div>
+          playlist={playlist}
+          playlistDetails={playlistDetails}
+          onDeletePlaylist={onDeletePlaylist}
+        />
       ))}
     </div>
   );
