@@ -1,10 +1,12 @@
 import Image from "next/image";
 import PlaylistInput from "./components/PlaylistInput";
+import HeroSection from "./components/HeroLayout/HeroSection";
 
 export default function Home() {
   return (
-    <main className="p-4">
-      <PlaylistInput />
+    <main>
+      <HeroSection />
+      {/* <PlaylistInput /> */}
     </main>
   );
 }
