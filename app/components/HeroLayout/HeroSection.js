@@ -41,8 +41,9 @@ function HeroSection() {
 
         <div class="mt-5 max-w-3xl text-center mx-auto">
           <p class="text-lg text-gray-600 dark:text-gray-400">
-            TuList is an intuitive platform built to keep track and organise
-            your Youtube Playlist in a better way.
+            Want to follow a Youtube Playlist? Worry not!
+            <br /> TuList is an intuitive platform built to track and organize
+            your YouTube playlist videos in a better way.
           </p>
         </div>
 
@@ -75,7 +76,7 @@ function HeroSection() {
           </button>
         </div>
 
-        <div class="mt-5 flex justify-center items-center gap-x-1 sm:gap-x-3">
+        {/* <div class="mt-5 flex justify-center items-center gap-x-1 sm:gap-x-3">
           <span class="text-sm text-gray-600 dark:text-gray-400">
             Lorem Ipsum
           </span>
@@ -113,7 +114,7 @@ function HeroSection() {
               />
             </svg>
           </a>
-        </div>
+        </div> */}
       </div>
     </div>
   );
