@@ -1,11 +1,19 @@
 import React from "react";
+import Link from "next/link";
 
 const PlaylistItem = ({ playlist, playlistDetails, onDeletePlaylist }) => {
+  const getPlaylistIdFromUrl = (url) => {
+    const urlParams = new URLSearchParams(new URL(url).search);
+    return urlParams.get("list");
+  };
+
+  const id = getPlaylistIdFromUrl(playlist.url);
+
   return (
     <div className="flex justify-between items-center border-b py-2">
       {playlistDetails[playlist.url] ? (
         <>
-          <div className="flex items-center">
+          <Link href={`/dashboard/${encodeURIComponent(id)}`}>
             <img
               src={playlistDetails[playlist.url].thumbnailUrl}
               alt="Playlist Thumbnail"
@@ -14,7 +22,7 @@ const PlaylistItem = ({ playlist, playlistDetails, onDeletePlaylist }) => {
             <p className="text-blue-500">
               {playlistDetails[playlist.url].title}
             </p>
-          </div>
+          </Link>
         </>
       ) : (
         <p className="text-blue-500">{playlist.url}</p>
