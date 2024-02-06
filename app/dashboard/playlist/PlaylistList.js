@@ -30,8 +30,10 @@ const PlaylistList = ({ playlists, onDeletePlaylist }) => {
             setPlaylistDetails((prevDetails) => ({
               ...prevDetails,
               [url]: {
+                channelTitle: playlistDetailsData.channelTitle,
+                description: playlistDetailsData.description,
                 title: playlistDetailsData.title,
-                thumbnailUrl: playlistDetailsData.thumbnails.default.url,
+                thumbnailUrl: playlistDetailsData.thumbnails.high.url,
               },
             }));
           } else {
@@ -81,16 +83,20 @@ const PlaylistList = ({ playlists, onDeletePlaylist }) => {
   }
 
   return (
-    <div className="max-w-md bg-white border rounded-md p-4">
-      <h2 className="text-xl font-semibold mb-4 text-black">Playlists</h2>
-      {playlists.map((playlist) => (
-        <PlaylistItem
-          key={playlist.id}
-          playlist={playlist}
-          playlistDetails={playlistDetails}
-          onDeletePlaylist={onDeletePlaylist}
-        />
-      ))}
+    <div className="w-max bg-white border rounded-md p-4">
+      <h2 className="text-xl font-semibold mb-4 text-black text-center">
+        Playlists
+      </h2>
+      <div className="flex flex-col lg:flex-row justify-center gap-8 items-center border-b py-2">
+        {playlists.map((playlist) => (
+          <PlaylistItem
+            key={playlist.id}
+            playlist={playlist}
+            playlistDetails={playlistDetails}
+            onDeletePlaylist={onDeletePlaylist}
+          />
+        ))}
+      </div>
     </div>
   );
 };

@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { UserAuth } from "../context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const { user, googleSignIn, logOut } = UserAuth();
   const [loading, setLoading] = useState(true);
 
+  const router = useRouter();
+
   const handleSignIn = async () => {
     try {
       await googleSignIn();
+      router.push("/dashboard");
     } catch (error) {
       console.log(error);
     }
@@ -16,6 +20,7 @@ const Navbar = () => {
   const handleSignOut = async () => {
     try {
       await logOut();
+      router.push("/");
     } catch (error) {
       console.log(error);
     }

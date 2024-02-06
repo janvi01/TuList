@@ -71,7 +71,7 @@ const PlaylistInput = () => {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div>
       <div className="flex items-center mb-4">
         <input
           type="text"
