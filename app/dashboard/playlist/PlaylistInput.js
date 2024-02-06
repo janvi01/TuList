@@ -71,8 +71,8 @@ const PlaylistInput = () => {
   };
 
   return (
-    <div>
-      <div className="flex items-center mb-4">
+    <div className="flex flex-col justify-center items-center">
+      <div className="flex justify-center items-center mb-4 w-full">
         <input
           type="text"
           placeholder="Enter YouTube Playlist URL"
@@ -80,11 +80,11 @@ const PlaylistInput = () => {
           onChange={(e) => setPlaylistUrl(e.target.value)}
           className={`border text-black ${
             isValidUrl ? "border-gray-300" : "border-red-500"
-          } p-2 mr-2 rounded-md focus:outline-none focus:ring focus:border-blue-500`}
+          } p-3 mr-2 rounded-md w-[70%] focus:outline-none focus:ring focus:border-blue-500`}
         />
         <button
           onClick={handleAddPlaylist}
-          className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+          className="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
         >
           Add Playlist
         </button>

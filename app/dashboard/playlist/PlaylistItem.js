@@ -25,9 +25,21 @@ const PlaylistItem = ({ playlist, playlistDetails, onDeletePlaylist }) => {
             <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-300 dark:hover:text-white">
               {playlistDetails[playlist.url].title}
             </h3>
-            <p className="mt-3 text-white">
+            <p className="my-3 text-white">
               {playlistDetails[playlist.url].description}
             </p>
+            <span class="py-1.5 px-4 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500">
+              Published on: {playlistDetails[playlist.url].publishedAt}
+            </span>
+            <span class="py-1.5 px-4 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500">
+              Total Videos: {playlistDetails[playlist.url].totalVideos}
+            </span>
+            <span class="py-1.5 px-4 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500">
+              Total Views: {playlistDetails[playlist.url].views}
+            </span>
+            <span class="py-1.5 px-4 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500">
+              Last Updated: {playlistDetails[playlist.url].lastUpdated}
+            </span>
           </div>
           <div className="mt-auto flex border-t border-gray-200 divide-x divide-gray-200 dark:border-gray-700 dark:divide-gray-700">
             <Link

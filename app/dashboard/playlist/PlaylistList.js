@@ -19,21 +19,31 @@ const PlaylistList = ({ playlists, onDeletePlaylist }) => {
 
         // Make a request to the YouTube Data API to get details
         const response = await fetch(
-          `https://www.googleapis.com/youtube/v3/playlists?part=snippet&key=${apiKey}&maxResults=1&id=${playlistId}`
+          `https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&key=${apiKey}&maxResults=1&id=${playlistId}`
         );
 
         if (response.ok) {
           const data = await response.json();
 
           if (data.items.length > 0) {
-            const playlistDetailsData = data.items[0].snippet;
+            const playlistDetailsData = data.items[0];
+            console.log(playlistDetailsData);
+            const snippet = playlistDetailsData.snippet;
+            const contentDetails = playlistDetailsData.contentDetails;
+
+            const publishedDate = new Date(
+              snippet.publishedAt
+            ).toLocaleDateString();
+
             setPlaylistDetails((prevDetails) => ({
               ...prevDetails,
               [url]: {
-                channelTitle: playlistDetailsData.channelTitle,
-                description: playlistDetailsData.description,
-                title: playlistDetailsData.title,
-                thumbnailUrl: playlistDetailsData.thumbnails.high.url,
+                channelTitle: snippet.channelTitle,
+                description: snippet.description,
+                title: snippet.title,
+                thumbnailUrl: snippet.thumbnails.standard.url,
+                totalVideos: contentDetails.itemCount,
+                publishedAt: publishedDate,
               },
             }));
           } else {
@@ -83,11 +93,9 @@ const PlaylistList = ({ playlists, onDeletePlaylist }) => {
   }
 
   return (
-    <div className="w-max bg-white border rounded-md p-4">
-      <h2 className="text-xl font-semibold mb-4 text-black text-center">
-        Playlists
-      </h2>
-      <div className="flex flex-col lg:flex-row justify-center gap-8 items-center border-b py-2">
+    <div className="w-full">
+      <h2 className="text-xl font-semibold mb-4 text-center">Playlists</h2>
+      <div className="flex flex-col flex-wrap lg:flex-row justify-center gap-8 items-center border-b py-2">
         {playlists.map((playlist) => (
           <PlaylistItem
             key={playlist.id}
