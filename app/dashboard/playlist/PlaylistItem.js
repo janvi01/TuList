@@ -31,14 +31,8 @@ const PlaylistItem = ({ playlist, playlistDetails, onDeletePlaylist }) => {
             <span class="py-1.5 px-4 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500">
               Published on: {playlistDetails[playlist.url].publishedAt}
             </span>
-            <span class="py-1.5 px-4 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500">
+            <span class="mx-2 py-1.5 px-4 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500">
               Total Videos: {playlistDetails[playlist.url].totalVideos}
-            </span>
-            <span class="py-1.5 px-4 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500">
-              Total Views: {playlistDetails[playlist.url].views}
-            </span>
-            <span class="py-1.5 px-4 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500">
-              Last Updated: {playlistDetails[playlist.url].lastUpdated}
             </span>
           </div>
           <div className="mt-auto flex border-t border-gray-200 divide-x divide-gray-200 dark:border-gray-700 dark:divide-gray-700">
