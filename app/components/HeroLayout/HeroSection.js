@@ -34,7 +34,7 @@ function HeroSection() {
             YouTube Playlist
             <span class="bg-clip-text bg-gradient-to-tl from-blue-600 to-violet-600 text-transparent">
               {" "}
-              Tracker
+              Manager
             </span>
           </h1>
         </div>
