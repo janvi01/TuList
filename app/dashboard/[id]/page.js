@@ -28,7 +28,38 @@ const PlaylistDetails = ({ params: { id } }) => {
             console.log(data);
 
             if (data.items && data.items.length > 0) {
-              allVideos.push(...data.items);
+              for (const item of data.items) {
+                const videoId = item.snippet.resourceId.videoId;
+                const videoResponse = await fetch(
+                  `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=${videoId}&key=${apiKey}`
+                );
+
+                if (videoResponse.ok) {
+                  const videoData = await videoResponse.json();
+                  const videoInfo = videoData.items[0];
+                  console.log(videoInfo);
+
+                  if (videoInfo) {
+                    const duration = formatDuration(
+                      videoInfo.contentDetails.duration
+                    );
+                    const viewCount = videoInfo.statistics.viewCount;
+                    const likesCount = videoInfo.statistics.likeCount;
+
+                    allVideos.push({
+                      ...item,
+                      duration,
+                      viewCount,
+                      likesCount,
+                    });
+                  }
+                } else {
+                  console.error(
+                    "Error fetching video details:",
+                    videoResponse.statusText
+                  );
+                }
+              }
             } else {
               console.warn("No videos found for the playlist.");
             }
@@ -49,6 +80,19 @@ const PlaylistDetails = ({ params: { id } }) => {
       } finally {
         setLoading(false);
       }
+    };
+
+    // Helper function to format video duration
+    const formatDuration = (duration) => {
+      const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
+
+      const hours = match[1] ? parseInt(match[1]) : 0;
+      const minutes = match[2] ? parseInt(match[2]) : 0;
+      const seconds = match[3] ? parseInt(match[3]) : 0;
+
+      return `${hours ? hours + ":" : ""}${minutes
+        .toString()
+        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     };
 
     if (id) {
@@ -96,6 +140,15 @@ const PlaylistDetails = ({ params: { id } }) => {
             </span>
           </div>
           <div className="flex items-end mt-4 sm:mt-0">
+            <span className="bg-blue-500 text-white py-1 px-2 rounded text-sm mr-2">
+              Duration: {video.duration}
+            </span>
+            <span className="bg-yellow-500 text-white py-1 px-2 rounded text-sm mr-2">
+              Views: {video.viewCount}
+            </span>
+            <span className="bg-green-500 text-white py-1 px-2 rounded text-sm mr-2">
+              Likes: {video.likesCount}
+            </span>
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               Complete
             </button>
