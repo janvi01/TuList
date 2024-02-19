@@ -10,29 +10,39 @@ import {
   doc,
 } from "firebase/firestore";
 import PlaylistList from "./PlaylistList";
+import { UserAuth } from "@/app/context/AuthContext";
 
 const PlaylistInput = () => {
+  const { user } = UserAuth();
   const [playlistUrl, setPlaylistUrl] = useState("");
   const [playlists, setPlaylists] = useState([]);
   const [isValidUrl, setIsValidUrl] = useState(true);
 
   const fetchPlaylists = async () => {
     try {
-      const playlistsCollection = collection(db, "playlists");
-      const playlistsSnapshot = await getDocs(playlistsCollection);
-      const playlistsData = playlistsSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setPlaylists(playlistsData);
+      if (user) {
+        // Use the user's UID to fetch playlists associated with the user
+        const playlistsCollection = collection(
+          db,
+          "users",
+          user.uid,
+          "playlists"
+        );
+        const playlistsSnapshot = await getDocs(playlistsCollection);
+        const playlistsData = playlistsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setPlaylists(playlistsData);
+      }
     } catch (error) {
-      console.error("Error fetching playlists:", error);
+      console.error("Error fetching user playlists:", error);
     }
   };
 
   useEffect(() => {
     fetchPlaylists();
-  }, []);
+  }, [user]);
 
   const isYouTubeUrl = (url) => {
     // Regular expression for a YouTube URL
@@ -42,8 +52,13 @@ const PlaylistInput = () => {
 
   const handleAddPlaylist = async () => {
     try {
-      if (isYouTubeUrl(playlistUrl)) {
-        const playlistsCollection = collection(db, "playlists");
+      if (user && isYouTubeUrl(playlistUrl)) {
+        const playlistsCollection = collection(
+          db,
+          "users",
+          user.uid,
+          "playlists"
+        );
         await addDoc(playlistsCollection, {
           url: playlistUrl,
           timestamp: Timestamp.fromDate(new Date()),
@@ -62,9 +77,16 @@ const PlaylistInput = () => {
 
   const handleDeletePlaylist = async (playlistId) => {
     try {
-      const playlistsCollection = collection(db, "playlists");
-      await deleteDoc(doc(playlistsCollection, playlistId));
-      fetchPlaylists();
+      if (user) {
+        const playlistsCollection = collection(
+          db,
+          "users",
+          user.uid,
+          "playlists"
+        );
+        await deleteDoc(doc(playlistsCollection, playlistId));
+        fetchPlaylists();
+      }
     } catch (error) {
       console.error("Error deleting playlist:", error);
     }
