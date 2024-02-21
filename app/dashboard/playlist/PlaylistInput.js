@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { db } from "../../firebase";
 import {
   collection,
-  addDoc,
+  setDoc,
   Timestamp,
   getDocs,
   deleteDoc,
@@ -59,14 +59,28 @@ const PlaylistInput = () => {
           user.uid,
           "playlists"
         );
-        await addDoc(playlistsCollection, {
-          url: playlistUrl,
-          timestamp: Timestamp.fromDate(new Date()),
-        });
 
-        setPlaylistUrl("");
-        fetchPlaylists();
-        setIsValidUrl(true);
+        // Extract playlistId from the YouTube playlist URL
+        const urlParams = new URLSearchParams(new URL(playlistUrl).search);
+        const playlistId = urlParams.get("list");
+
+        // Check if a valid playlistId is extracted
+        if (playlistId) {
+          // Create a document reference directly using the playlistId
+          const playlistRef = doc(playlistsCollection, playlistId);
+
+          await setDoc(playlistRef, {
+            url: playlistUrl,
+            timestamp: Timestamp.fromDate(new Date()),
+            completedVideos: [],
+          });
+
+          setPlaylistUrl("");
+          fetchPlaylists();
+          setIsValidUrl(true);
+        } else {
+          setIsValidUrl(false);
+        }
       } else {
         setIsValidUrl(false);
       }

@@ -1,10 +1,21 @@
 "use client";
+import { UserAuth } from "@/app/context/AuthContext";
 import React, { useState, useEffect } from "react";
+import { db } from "../../firebase";
+import {
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  arrayUnion,
+} from "firebase/firestore";
 
 const PlaylistDetails = ({ params: { id } }) => {
+  const { user } = UserAuth();
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+  const [completedVideos, setCompletedVideos] = useState(new Set()); // Use a Set to store unique video IDs
 
   useEffect(() => {
     const fetchPlaylistVideos = async () => {
@@ -13,6 +24,20 @@ const PlaylistDetails = ({ params: { id } }) => {
           // when id is not defined
           console.warn("No playlist id provided.");
           return;
+        }
+
+        // Fetch completed videos if user is logged in
+        if (user && user.uid) {
+          const userDocRef = doc(db, "users", user.uid);
+          const playlistDoc = await getDoc(
+            doc(collection(userDocRef, "playlists"), id)
+          );
+
+          if (playlistDoc.exists()) {
+            setCompletedVideos(
+              new Set(playlistDoc.data().completedVideos || [])
+            );
+          }
         }
 
         let nextPageToken = "";
@@ -25,7 +50,6 @@ const PlaylistDetails = ({ params: { id } }) => {
 
           if (response.ok) {
             const data = await response.json();
-            console.log(data);
 
             if (data.items && data.items.length > 0) {
               for (const item of data.items) {
@@ -37,7 +61,6 @@ const PlaylistDetails = ({ params: { id } }) => {
                 if (videoResponse.ok) {
                   const videoData = await videoResponse.json();
                   const videoInfo = videoData.items[0];
-                  console.log(videoInfo);
 
                   if (videoInfo) {
                     const duration = formatDuration(
@@ -82,23 +105,64 @@ const PlaylistDetails = ({ params: { id } }) => {
       }
     };
 
-    // Helper function to format video duration
-    const formatDuration = (duration) => {
-      const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
-
-      const hours = match[1] ? parseInt(match[1]) : 0;
-      const minutes = match[2] ? parseInt(match[2]) : 0;
-      const seconds = match[3] ? parseInt(match[3]) : 0;
-
-      return `${hours ? hours + ":" : ""}${minutes
-        .toString()
-        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-    };
-
     if (id) {
       fetchPlaylistVideos();
     }
-  }, [id, apiKey]);
+  }, [id, apiKey, user]);
+
+  // Helper function to format video duration
+  const formatDuration = (duration) => {
+    const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
+
+    const hours = match[1] ? parseInt(match[1]) : 0;
+    const minutes = match[2] ? parseInt(match[2]) : 0;
+    const seconds = match[3] ? parseInt(match[3]) : 0;
+
+    return `${hours ? hours + ":" : ""}${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+  };
+
+  const markVideoAsCompleted = async (videoId, playlistId) => {
+    if (!user) {
+      console.warn("User not authenticated.");
+      return;
+    }
+
+    try {
+      const userDocRef = doc(db, "users", user.uid);
+      console.log(
+        "Attempting to mark video as completed for playlistId:",
+        playlistId
+      );
+      const playlistDocRef = doc(
+        collection(userDocRef, "playlists"),
+        playlistId
+      );
+
+      const playlistDoc = await getDoc(playlistDocRef);
+
+      if (playlistDoc.exists()) {
+        const completedVideos = playlistDoc.data().completedVideos || [];
+
+        if (!completedVideos.includes(videoId)) {
+          // If the document doesn't exist, use setDoc to create it with initial data
+          await setDoc(
+            playlistDocRef,
+            {
+              completedVideos: arrayUnion(videoId),
+            },
+            { merge: true } // Use merge to update only the specified fields
+          );
+        }
+        setCompletedVideos(new Set(completedVideos).add(videoId));
+      } else {
+        console.error("Playlist document not found");
+      }
+    } catch (error) {
+      console.error("Error marking video as completed:", error);
+    }
+  };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -149,9 +213,20 @@ const PlaylistDetails = ({ params: { id } }) => {
             <span className="bg-green-500 text-white py-1 px-2 rounded text-sm mr-2">
               Likes: {video.likesCount}
             </span>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              Complete
-            </button>
+            {completedVideos.has(video.snippet.resourceId.videoId) ? (
+              <span className="bg-green-500 text-white font-bold py-2 px-4 rounded">
+                Completed
+              </span>
+            ) : (
+              <button
+                onClick={() =>
+                  markVideoAsCompleted(video.snippet.resourceId.videoId, id)
+                }
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                mark as Completed
+              </button>
+            )}
           </div>
         </li>
       ))}
