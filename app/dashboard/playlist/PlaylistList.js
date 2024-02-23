@@ -27,7 +27,6 @@ const PlaylistList = ({ playlists, onDeletePlaylist }) => {
 
           if (data.items.length > 0) {
             const playlistDetailsData = data.items[0];
-            console.log(playlistDetailsData);
             const snippet = playlistDetailsData.snippet;
             const contentDetails = playlistDetailsData.contentDetails;
 
