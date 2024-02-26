@@ -10,7 +10,7 @@ const PlaylistItem = ({ playlist, playlistDetails, onDeletePlaylist }) => {
   const id = getPlaylistIdFromUrl(playlist.url);
 
   return (
-    <div className="max-w-md flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+    <div className="max-w-md flex flex-col border border-gray-200 shadow-sm rounded-xl dark:border-gray-700 dark:shadow-slate-700/[.7]">
       {playlistDetails[playlist.url] ? (
         <div className="max-h-[600px]">
           <img
@@ -28,10 +28,10 @@ const PlaylistItem = ({ playlist, playlistDetails, onDeletePlaylist }) => {
             <p className="my-3 text-white min-h-[50px] max-h-[70px] overflow-y-auto">
               {playlistDetails[playlist.url].description}
             </p>
-            <span class="py-1.5 px-4 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500">
+            <span className="py-1.5 px-4 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500">
               Published on: {playlistDetails[playlist.url].publishedAt}
             </span>
-            <span class="mx-2 py-1.5 px-4 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500">
+            <span className="mx-2 py-1.5 px-4 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500">
               Total Videos: {playlistDetails[playlist.url].totalVideos}
             </span>
           </div>

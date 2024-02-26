@@ -114,9 +114,7 @@ const PlaylistInput = () => {
           placeholder="Enter YouTube Playlist URL"
           value={playlistUrl}
           onChange={(e) => setPlaylistUrl(e.target.value)}
-          className={`border text-black ${
-            isValidUrl ? "border-gray-300" : "border-red-500"
-          } p-3 mr-2 rounded-md w-[70%] focus:outline-none focus:ring focus:border-blue-500`}
+          className={`border text-black lg:w-[700px] p-3 mr-2 rounded-md focus:outline-none focus:ring focus:border-blue-500`}
         />
         <button
           onClick={handleAddPlaylist}

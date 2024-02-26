@@ -4,15 +4,16 @@ import { UserAuth } from "../context/AuthContext";
 import PlaylistInput from "./playlist/PlaylistInput";
 import Spinner from "../components/Spinner";
 
-const page = () => {
+const Page = () => {
   const { user } = UserAuth();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAuthentication = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      await new Promise((resolve) => setTimeout(resolve, 500));
       setLoading(false);
     };
+
     checkAuthentication();
   }, [user]);
 
@@ -31,11 +32,12 @@ const page = () => {
           </p>
           <PlaylistInput />
         </div>
-      ) : (
-        <p>You must be logged in to view this page - protected route.</p>
+      ) : null}
+      {!user && !loading && (
+        <p className="text-center">You must be logged in to view this page.</p>
       )}
     </div>
   );
 };
 
-export default page;
+export default Page;
