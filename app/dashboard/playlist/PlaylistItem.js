@@ -10,9 +10,9 @@ const PlaylistItem = ({ playlist, playlistDetails, onDeletePlaylist }) => {
   const id = getPlaylistIdFromUrl(playlist.url);
 
   return (
-    <div className="max-w-md h-[600px] flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+    <div className="max-w-md flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
       {playlistDetails[playlist.url] ? (
-        <>
+        <div className="max-h-[600px]">
           <img
             src={playlistDetails[playlist.url].thumbnailUrl}
             alt="Playlist Thumbnail"
@@ -25,7 +25,7 @@ const PlaylistItem = ({ playlist, playlistDetails, onDeletePlaylist }) => {
             <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-300 dark:hover:text-white">
               {playlistDetails[playlist.url].title}
             </h3>
-            <p className="my-3 text-white">
+            <p className="my-3 text-white min-h-[50px] max-h-[70px] overflow-y-auto">
               {playlistDetails[playlist.url].description}
             </p>
             <span class="py-1.5 px-4 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500">
@@ -50,7 +50,7 @@ const PlaylistItem = ({ playlist, playlistDetails, onDeletePlaylist }) => {
               Delete
             </button>
           </div>
-        </>
+        </div>
       ) : (
         <p className="text-blue-500">{playlist.url}</p>
       )}

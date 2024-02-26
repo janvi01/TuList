@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PlaylistItem from "./PlaylistItem";
+import Spinner from "../../components/Spinner";
 
 const PlaylistList = ({ playlists, onDeletePlaylist }) => {
   const [playlistDetails, setPlaylistDetails] = useState({});
@@ -88,13 +89,13 @@ const PlaylistList = ({ playlists, onDeletePlaylist }) => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Spinner />;
   }
 
   return (
     <div className="w-full">
-      <h2 className="text-xl font-semibold mb-4 text-center">Playlists</h2>
-      <div className="flex flex-col flex-wrap lg:flex-row justify-center gap-8 items-center border-b py-2">
+      <h2 className="text-3xl font-semibold mb-4 text-center">PLAYLISTS</h2>
+      <div className="flex flex-col flex-wrap lg:flex-row justify-center gap-8 items-center py-2">
         {playlists.map((playlist) => (
           <PlaylistItem
             key={playlist.id}

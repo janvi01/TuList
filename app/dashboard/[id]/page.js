@@ -9,6 +9,7 @@ import {
   setDoc,
   arrayUnion,
 } from "firebase/firestore";
+import Spinner from "@/app/components/Spinner";
 
 const PlaylistDetails = ({ params: { id } }) => {
   const { user } = UserAuth();
@@ -180,22 +181,22 @@ const PlaylistDetails = ({ params: { id } }) => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Spinner />;
   }
 
   return (
-    <div>
-      <div className="bg-blue-500 text-white py-1 px-2 rounded text-sm mb-4">
-        Total Duration: {totalDuration} seconds
-      </div>
-      <ul className="bg-gray-700 m-8 p-4 overflow-y-auto">
+    <div className="flex flex-col items-center ">
+      <span className="py-1.5 px-4 m-4 rounded-full text-sm font-medium bg-teal-800/30 text-teal-500 w-max">
+        Total Duration of Playlist: {totalDuration} seconds
+      </span>
+      <ul className="m-4 overflow-y-auto">
         {videos.map((video) => (
           <li
             key={video.id}
-            className="flex flex-col sm:flex-row gap-4 py-5 border-b border-gray-600 mb-4"
+            className="flex flex-col sm:flex-row gap-4 py-5 border-b mb-4 p-6 border rounded-lg shadow bg-gray-800 border-gray-700 hover:bg-gray-700"
           >
             <div className="flex items-center justify-center sm:justify-start mb-4 sm:mb-0">
-              <span className="m-4">{video.snippet.position + 1}</span>
+              <span className="m-4">{video.snippet.position + 1}.</span>
               <a
                 href={`https://www.youtube.com/watch?v=${video.snippet.resourceId.videoId}`}
                 target="_blank"
@@ -217,36 +218,36 @@ const PlaylistDetails = ({ params: { id } }) => {
               >
                 {video.snippet.title}
               </a>
-              <span className="bg-green-500 text-white py-1 px-2 rounded text-sm w-max">
-                Published on{" "}
-                {new Date(video.snippet.publishedAt).toLocaleDateString()}
-              </span>
-            </div>
-            <div className="flex items-end mt-4 sm:mt-0">
-              <span className="bg-blue-500 text-white py-1 px-2 rounded text-sm mr-2">
-                Duration: {video.duration}
-              </span>
-              <span className="bg-yellow-500 text-white py-1 px-2 rounded text-sm mr-2">
-                Views: {video.viewCount}
-              </span>
-              <span className="bg-green-500 text-white py-1 px-2 rounded text-sm mr-2">
-                Likes: {video.likesCount}
-              </span>
-              {completedVideos.has(video.snippet.resourceId.videoId) ? (
-                <span className="bg-green-500 text-white font-bold py-2 px-4 rounded">
-                  Completed
+              <div className="flex flex-wrap gap-2 mt-4 sm:mt-0">
+                <span className="w-max py-1.5 px-4 rounded-full text-sm font-medium bg-green-800/30 text-green-500">
+                  Published on{" "}
+                  {new Date(video.snippet.publishedAt).toLocaleDateString()}
                 </span>
-              ) : (
-                <button
-                  onClick={() =>
-                    markVideoAsCompleted(video.snippet.resourceId.videoId, id)
-                  }
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                >
-                  mark as Completed
-                </button>
-              )}
+                <span className="py-1.5 px-4 rounded-full text-sm font-medium bg-blue-800/30 text-blue-500">
+                  Duration: {video.duration}
+                </span>
+                <span className="py-1.5 px-4 rounded-full text-sm font-medium bg-yellow-800/30 text-yellow-500">
+                  Views: {video.viewCount}
+                </span>
+                <span className="py-1.5 px-4 rounded-full text-sm font-medium bg-teal-800/30 text-teal-500">
+                  Likes: {video.likesCount}
+                </span>
+              </div>
             </div>
+            {completedVideos.has(video.snippet.resourceId.videoId) ? (
+              <span className="bg-green-500 text-white font-bold py-2 px-4 rounded h-min text-center mt-4 sm:mt-0">
+                Completed
+              </span>
+            ) : (
+              <button
+                onClick={() =>
+                  markVideoAsCompleted(video.snippet.resourceId.videoId, id)
+                }
+                className="bg-blue-500 hover:bg-blue-700 text-white h-min font-bold py-2 px-4 rounded mt-4 sm:mt-0"
+              >
+                mark as Completed
+              </button>
+            )}
           </li>
         ))}
       </ul>
