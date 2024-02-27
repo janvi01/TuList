@@ -28,7 +28,11 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    setLoading(false); // Remove the loading check
+    const checkAuthentication = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      setLoading(false);
+    };
+    checkAuthentication();
   }, [user]);
 
   return (
