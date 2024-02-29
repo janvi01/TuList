@@ -2,13 +2,7 @@
 import { UserAuth } from "@/app/context/AuthContext";
 import React, { useState, useEffect } from "react";
 import { db } from "../../firebase";
-import {
-  collection,
-  doc,
-  getDoc,
-  setDoc,
-  arrayUnion,
-} from "firebase/firestore";
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import Spinner from "@/app/components/Spinner";
 import PlaylistHeader from "./PlaylistHeader";
 import VideoList from "./VideoList";
@@ -191,7 +185,11 @@ const PlaylistDetails = ({ params: { id } }) => {
 
   return (
     <div className="flex flex-col items-center ">
-      <PlaylistHeader totalDuration={totalDuration} />
+      <PlaylistHeader
+        totalDuration={totalDuration}
+        totalVideos={videos.length}
+        totalCompletedVideos={completedVideos.size}
+      />
       <VideoList
         videos={videos}
         markVideoAsCompleted={markVideoAsCompleted}
