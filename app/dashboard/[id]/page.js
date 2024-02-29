@@ -16,7 +16,7 @@ const PlaylistDetails = ({ params: { id } }) => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
-  const [completedVideos, setCompletedVideos] = useState(new Set()); // Use a Set to store unique video IDs
+  const [completedVideos, setCompletedVideos] = useState(new Set());
   const [totalDuration, setTotalDuration] = useState(0);
 
   useEffect(() => {
@@ -143,7 +143,7 @@ const PlaylistDetails = ({ params: { id } }) => {
       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
 
-  const markVideoAsCompleted = async (videoId, playlistId) => {
+  const markVideoAsCompleted = async (videoId, playlistId, isChecked) => {
     if (!user) {
       console.warn("User not authenticated.");
       return;
@@ -159,19 +159,22 @@ const PlaylistDetails = ({ params: { id } }) => {
       const playlistDoc = await getDoc(playlistDocRef);
 
       if (playlistDoc.exists()) {
-        const completedVideos = playlistDoc.data().completedVideos || [];
+        const completedVideos = new Set(
+          playlistDoc.data().completedVideos || []
+        );
+        const updatedCompletedVideos = isChecked
+          ? new Set([...completedVideos, videoId])
+          : new Set([...completedVideos].filter((id) => id !== videoId));
 
-        if (!completedVideos.includes(videoId)) {
-          // If the document doesn't exist, use setDoc to create it with initial data
-          await setDoc(
-            playlistDocRef,
-            {
-              completedVideos: arrayUnion(videoId),
-            },
-            { merge: true } // Use merge to update only the specified fields
-          );
-        }
-        setCompletedVideos(new Set(completedVideos).add(videoId));
+        await setDoc(
+          playlistDocRef,
+          {
+            completedVideos: Array.from(updatedCompletedVideos),
+          },
+          { merge: true }
+        );
+
+        setCompletedVideos(updatedCompletedVideos);
       } else {
         console.error("Playlist document not found");
       }
@@ -235,18 +238,33 @@ const PlaylistDetails = ({ params: { id } }) => {
               </div>
             </div>
             {completedVideos.has(video.snippet.resourceId.videoId) ? (
-              <span className="bg-green-500 text-white font-bold py-2 px-4 rounded h-min text-center mt-4 sm:mt-0">
-                Completed
-              </span>
-            ) : (
-              <button
-                onClick={() =>
-                  markVideoAsCompleted(video.snippet.resourceId.videoId, id)
+              <input
+                type="checkbox"
+                checked={completedVideos.has(video.snippet.resourceId.videoId)}
+                onChange={() =>
+                  markVideoAsCompleted(
+                    video.snippet.resourceId.videoId,
+                    id,
+                    false
+                  )
                 }
-                className="bg-blue-500 hover:bg-blue-700 text-white h-min font-bold py-2 px-4 rounded mt-4 sm:mt-0"
-              >
-                mark as Completed
-              </button>
+                className="w-10 mx-4 mt-4 sm:mt-0 cursor-pointer"
+                title="mark video as incomplete"
+              />
+            ) : (
+              <input
+                type="checkbox"
+                checked={completedVideos.has(video.snippet.resourceId.videoId)}
+                onChange={() =>
+                  markVideoAsCompleted(
+                    video.snippet.resourceId.videoId,
+                    id,
+                    true
+                  )
+                }
+                className="w-10 mx-4 mt-4 sm:mt-0 cursor-pointer"
+                title="mark video as completed"
+              />
             )}
           </li>
         ))}

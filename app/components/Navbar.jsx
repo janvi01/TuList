@@ -5,7 +5,7 @@ import { UserIcon } from "@heroicons/react/24/outline";
 
 const Navbar = () => {
   const { user, googleSignIn, logOut } = UserAuth();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -28,6 +28,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     const checkAuthentication = async () => {
       await new Promise((resolve) => setTimeout(resolve, 50));
       setLoading(false);
@@ -52,7 +53,7 @@ const Navbar = () => {
         </div>
         <div className="flex flex-row gap-4 mt-0 items-center justify-center md:justify-end md:gap-y-0 md:gap-x-7 md:mt-0 md:ps-7">
           <a
-            className="font-medium md:py-6 text-blue-500"
+            className="font-medium md:py-6 text-white hover:text-blue-500"
             href="/"
             aria-current="page"
           >
@@ -60,7 +61,7 @@ const Navbar = () => {
           </a>
           {!user ? null : (
             <a
-              className="font-medium md:py-6 text-gray-400 hover:text-gray-500"
+              className="font-medium md:py-6 text-white hover:text-blue-500"
               href="/dashboard"
             >
               Dashboard
@@ -79,7 +80,7 @@ const Navbar = () => {
           ) : (
             <div>
               <a
-                className="flex items-center gap-x-2 font-medium cursor-pointer md:border-s md:border-gray-300 md:my-6 md:ps-6 border-gray-700 text-gray-400 hover:text-blue-500"
+                className="flex items-center gap-x-2 font-medium cursor-pointer md:border-s md:border-gray-300 md:my-6 md:ps-6 border-gray-700 text-white hover:text-blue-500"
                 onClick={handleSignOut}
               >
                 Sign out
