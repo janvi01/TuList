@@ -26,7 +26,7 @@ const PlaylistHeader = ({
   };
 
   return (
-    <div className="flex">
+    <div className="flex flex-col lg:flex-row items-center">
       <span className="py-1.5 px-4 my-4 mx-2 rounded-full text-sm font-medium bg-teal-800/30 text-teal-500 w-max">
         Total Duration of Playlist: {DurationFormatter(totalDuration)}
       </span>

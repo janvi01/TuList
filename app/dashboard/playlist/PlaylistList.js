@@ -93,18 +93,24 @@ const PlaylistList = ({ playlists, onDeletePlaylist }) => {
   }
 
   return (
-    <div className="w-full">
+    <div>
       <h2 className="text-3xl font-semibold mb-4 text-center">PLAYLISTS</h2>
-      <div className="flex flex-col flex-wrap lg:flex-row justify-center gap-8 items-center py-2">
-        {playlists.map((playlist) => (
-          <PlaylistItem
-            key={playlist.id}
-            playlist={playlist}
-            playlistDetails={playlistDetails}
-            onDeletePlaylist={onDeletePlaylist}
-          />
-        ))}
-      </div>
+      {playlists.length === 0 ? (
+        <div className="py-1.5 px-4 text-lg rounded-full text-center font-medium bg-red-800/30 text-red-500">
+          No Playlist added, Add it now!!!
+        </div>
+      ) : (
+        <div className="flex flex-col flex-wrap lg:flex-row justify-center gap-8 items-center py-2">
+          {playlists.map((playlist) => (
+            <PlaylistItem
+              key={playlist.id}
+              playlist={playlist}
+              playlistDetails={playlistDetails}
+              onDeletePlaylist={onDeletePlaylist}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

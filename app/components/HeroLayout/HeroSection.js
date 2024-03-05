@@ -1,6 +1,10 @@
-import React from "react";
+"use client";
+import { UserAuth } from "@/app/context/AuthContext";
+import Image from "next/image";
+import Demo from "../../assets/demo.png";
 
 function HeroSection() {
+  const { handleSignIn } = UserAuth();
   return (
     <div className="text-white">
       <div className="max-w mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10">
@@ -24,8 +28,8 @@ function HeroSection() {
 
         <div className="mt-8 gap-3 flex justify-center">
           <a
-            className="inline-flex justify-center items-center gap-x-3 bg-gradient-to-tl from-blue-600 to-violet-600 hover:from-violet-600 hover:to-blue-600 border border-transparent text-white text-sm font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-3 px-4"
-            href="#"
+            className="inline-flex justify-center cursor-pointer items-center gap-x-3 bg-gradient-to-tl from-blue-600 to-violet-600 hover:from-violet-600 hover:to-blue-600 border border-transparent text-white text-sm font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-3 px-4"
+            onClick={handleSignIn}
           >
             Get started
             <svg
@@ -44,10 +48,17 @@ function HeroSection() {
             </svg>
           </a>
         </div>
-        <div className="flex justify-center">
-          <div className="inline-flex items-center mt-8 gap-x-2 px-3 py-2 rounded-full bg-gray-800 hover:border-gray-600">
-            More features incoming soon ✨ Stay tuned 😉
+        <div className="flex flex-col items-center justify-center gap-4">
+          <div className="flex flex-col items-center mt-8 space-y-2 px-3 py-2 rounded-full bg-gray-800 hover:border-gray-600">
+            <p>More features incoming soon ✨ Stay tuned 😉</p>
           </div>
+          <Image
+            src={Demo}
+            width={900}
+            height={"auto"}
+            alt="TuList Demo"
+            className="mt-8 object-cover shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] rounded-3xl"
+          />
         </div>
       </div>
     </div>

@@ -8,7 +8,7 @@ const featuresList = [
   {
     name: "Add Playlist just by adding URL",
     description:
-      "Are you learning or following any course or watching any web series on Youtube ? Add all your Youtube Playlist at one place.",
+      "Add Playlist just by adding Playlist URL or video URL of the Playlist it is part of.",
     icon: CloudArrowUpIcon,
   },
   {
@@ -24,7 +24,7 @@ const featuresList = [
     icon: ArrowPathIcon,
   },
   {
-    name: "Lorem Ipsum",
+    name: "Coming soon!",
     description:
       "Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.",
     icon: CheckIcon,
@@ -43,9 +43,8 @@ export default function Features() {
             What TuList can do?
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Quis tellus eget adipiscing convallis sit sit eget aliquet quis.
-            Suspendisse eget egestas a elementum pulvinar et feugiat blandit at.
-            In mi viverra elit nunc.
+            Are you learning or following any course or watching any web series
+            on Youtube ? Add all your Youtube Playlist at one place.
           </p>
         </div>
         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">

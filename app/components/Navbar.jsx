@@ -1,40 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { UserAuth } from "../context/AuthContext";
-import { useRouter } from "next/navigation";
 import { UserIcon } from "@heroicons/react/24/outline";
+import Spinner from "./Spinner";
 
 const Navbar = () => {
-  const { user, googleSignIn, logOut } = UserAuth();
-  const [loading, setLoading] = useState(false);
-
-  const router = useRouter();
-
-  const handleSignIn = async () => {
-    try {
-      await googleSignIn();
-      router.push("/dashboard");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleSignOut = async () => {
-    try {
-      await logOut();
-      router.push("/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { user, handleSignIn, handleSignOut } = UserAuth();
+  const [loading, setLoading] = useState(true);
+  const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
     const checkAuthentication = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      // Simulate an asynchronous authentication check (replace this with your actual authentication logic)
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       setLoading(false);
+      setAuthChecked(true);
     };
+
     checkAuthentication();
   }, [user]);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <header className="z-50 w-full text-sm">
@@ -51,7 +39,7 @@ const Navbar = () => {
             TuList
           </a>
         </div>
-        <div className="flex flex-row gap-4 mt-0 items-center justify-center md:justify-end md:gap-y-0 md:gap-x-7 md:mt-0 md:ps-7">
+        <div className="flex flex-row gap-4 mt-0 items-center justify-center md:justify-end md:gap-y-0 md:mt-0 md:ps-7">
           <a
             className="font-medium md:py-6 text-white hover:text-blue-500"
             href="/"
@@ -59,18 +47,10 @@ const Navbar = () => {
           >
             Home
           </a>
-          {!user ? null : (
-            <a
-              className="font-medium md:py-6 text-white hover:text-blue-500"
-              href="/dashboard"
-            >
-              Dashboard
-            </a>
-          )}
-          {loading ? null : !user ? (
+          {!authChecked ? null : !user ? (
             <div className="flex">
               <a
-                className="flex items-center gap-x-2 font-medium cursor-pointer  md:border-s md:border-gray-300 md:my-6 md:ps-6 dark:border-gray-700 text-gray-400 hover:text-blue-500"
+                className="flex items-center gap-x-2 font-medium cursor-pointer md:border-s md:border-gray-300 md:my-6 md:ps-6 dark:border-gray-700 text-gray-400 hover:text-blue-500"
                 onClick={handleSignIn}
               >
                 <UserIcon className="w-6 h-6" />
@@ -78,11 +58,18 @@ const Navbar = () => {
               </a>
             </div>
           ) : (
-            <div>
+            <div className="flex flex-row gap-4 mt-0 items-center justify-center md:justify-end md:gap-y-0 md:gap-x-7 md:mt-0 md:ps-7">
+              <a
+                className="font-medium md:py-6 text-white hover:text-blue-500"
+                href="/dashboard"
+              >
+                Dashboard
+              </a>
               <a
                 className="flex items-center gap-x-2 font-medium cursor-pointer md:border-s md:border-gray-300 md:my-6 md:ps-6 border-gray-700 text-white hover:text-blue-500"
                 onClick={handleSignOut}
               >
+                <UserIcon className="w-6 h-6" />
                 Sign out
               </a>
             </div>
