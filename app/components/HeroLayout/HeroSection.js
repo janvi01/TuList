@@ -27,7 +27,7 @@ function HeroSection() {
         </div>
 
         <div className="mt-8 gap-3 flex justify-center">
-          <a
+          <button
             className="inline-flex justify-center cursor-pointer items-center gap-x-3 bg-gradient-to-tl from-blue-600 to-violet-600 hover:from-violet-600 hover:to-blue-600 border border-transparent text-white text-sm font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-3 px-4"
             onClick={handleSignIn}
           >
@@ -46,7 +46,7 @@ function HeroSection() {
                 strokeLinecap="round"
               />
             </svg>
-          </a>
+          </button>
         </div>
         <div className="flex flex-col items-center justify-center gap-4">
           <div className="flex flex-col items-center mt-8 space-y-2 px-3 py-2 rounded-full bg-gray-800 hover:border-gray-600">

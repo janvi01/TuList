@@ -184,7 +184,7 @@ const PlaylistDetails = ({ params: { id } }) => {
   }
 
   return (
-    <div className="flex flex-col items-center ">
+    <div className="flex flex-col w-full items-center ">
       <PlaylistHeader
         totalDuration={totalDuration}
         totalVideos={videos.length}

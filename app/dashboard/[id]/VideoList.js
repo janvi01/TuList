@@ -3,7 +3,7 @@ import VideoItem from "./VideoItem";
 
 const VideoList = ({ videos, markVideoAsCompleted, completedVideos, id }) => {
   return (
-    <ul className="m-4 overflow-y-auto">
+    <ul className="m-4 w-full max-w-screen-xl overflow-y-auto">
       {videos.map((video) => (
         <VideoItem
           key={video.id}

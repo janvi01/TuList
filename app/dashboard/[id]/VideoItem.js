@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 
 const VideoItem = ({ video, markVideoAsCompleted, completedVideos, id }) => {
+  const [showVideo, setShowVideo] = useState(false);
+  const videoId = video.snippet.resourceId.videoId;
+
+  const handleTitleClick = () => {
+    setShowVideo(!showVideo);
+  };
+
   return (
     <li
       key={video.id}
-      className="flex flex-col sm:flex-row gap-4 py-5 border-b mb-4 p-6 border rounded-lg shadow bg-gray-800 border-gray-700 hover:bg-gray-700"
+      className="flex flex-col w-full sm:flex-row gap-4 py-5 border-b mb-4 p-6 border rounded-lg shadow bg-gray-800 border-gray-700 hover:bg-gray-700"
     >
       <div className="flex items-center justify-center sm:justify-start mb-4 sm:mb-0">
         <span className="m-4">{video.snippet.position + 1}.</span>
         <a
-          href={`https://www.youtube.com/watch?v=${video.snippet.resourceId.videoId}`}
+          href={`https://www.youtube.com/watch?v=${videoId}`}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -21,14 +28,24 @@ const VideoItem = ({ video, markVideoAsCompleted, completedVideos, id }) => {
         </a>
       </div>
       <div className="flex flex-col flex-grow">
-        <a
-          href={`https://www.youtube.com/watch?v=${video.snippet.resourceId.videoId}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-white text-lg font-semibold mb-2"
+        <span
+          className="text-white text-lg font-semibold mb-2 cursor-pointer"
+          onClick={handleTitleClick}
         >
           {video.snippet.title}
-        </a>
+        </span>
+        {showVideo && (
+          <div className="relative mb-4">
+            <iframe
+              title={video.snippet.title}
+              width="80%"
+              height="350"
+              src={`https://www.youtube.com/embed/${videoId}`}
+              allowFullScreen
+              className="rounded-md mt-4"
+            />
+          </div>
+        )}
         <div className="flex flex-wrap gap-2 mt-4 sm:mt-0">
           <span className="w-max py-1.5 px-4 rounded-full text-sm font-medium bg-green-800/30 text-green-500">
             Published on{" "}

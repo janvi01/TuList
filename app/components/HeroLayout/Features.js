@@ -13,8 +13,7 @@ const featuresList = [
   },
   {
     name: "Mark videos as completed",
-    description:
-      "To track whether your Playlist is completed, you can mark videos as completed.",
+    description: "You can mark your videos as completed.",
     icon: CheckIcon,
   },
   {
@@ -44,7 +43,7 @@ export default function Features() {
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
             Are you learning or following any course or watching any web series
-            on Youtube ? Add all your Youtube Playlist at one place.
+            on Youtube ? Add and watch all your Youtube Playlist at one place.
           </p>
         </div>
         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
