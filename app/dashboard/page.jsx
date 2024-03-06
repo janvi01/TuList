@@ -18,7 +18,7 @@ const Page = () => {
   }, [user]);
 
   return (
-    <div className="p-4">
+    <div className="p-4 min-h-screen">
       {loading ? (
         <Spinner />
       ) : user ? (
