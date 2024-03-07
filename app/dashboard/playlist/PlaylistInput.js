@@ -46,7 +46,8 @@ const PlaylistInput = () => {
 
   const isYouTubeUrl = (url) => {
     // Regular expression for a YouTube URL
-    const youtubeRegex = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+/;
+    const youtubeRegex =
+      /^(https?:\/\/)?(www\.)?youtube\.com\/(playlist\?list=|watch\?v=)([a-zA-Z0-9_-]+)/;
     return youtubeRegex.test(url);
   };
 
