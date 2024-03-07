@@ -94,7 +94,9 @@ const PlaylistList = ({ playlists, onDeletePlaylist }) => {
 
   return (
     <div>
-      <h2 className="text-3xl font-semibold mb-4 text-center">PLAYLISTS</h2>
+      <h2 className="text-4xl font-semibold mb-4 text-center text-white">
+        PLAYLISTS
+      </h2>
       <div className="flex flex-col flex-wrap lg:flex-row justify-center gap-8 items-center py-2">
         {playlists.map((playlist) => (
           <PlaylistItem
