@@ -14,7 +14,7 @@ const VideoItem = ({ video, markVideoAsCompleted, completedVideos, id }) => {
       className="flex flex-col w-full sm:flex-row gap-4 py-5 border-b mb-4 p-6 border rounded-lg shadow bg-gray-800 border-gray-700 hover:bg-gray-700"
     >
       <div className="flex items-center justify-center sm:justify-start mb-4 sm:mb-0">
-        <span className="m-4">{video.snippet.position + 1}.</span>
+        <span className="m-4 text-white">{video.snippet.position + 1}.</span>
         <a
           href={`https://www.youtube.com/watch?v=${videoId}`}
           target="_blank"

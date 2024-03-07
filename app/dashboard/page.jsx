@@ -34,7 +34,9 @@ const Page = () => {
         </div>
       ) : null}
       {!user && !loading && (
-        <p className="text-center">You must be logged in to view this page.</p>
+        <p className="text-center text-white">
+          You must be logged in to view this page.
+        </p>
       )}
     </div>
   );
