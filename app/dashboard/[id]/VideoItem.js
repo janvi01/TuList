@@ -4,6 +4,8 @@ const VideoItem = ({ video, markVideoAsCompleted, completedVideos, id }) => {
   const [showVideo, setShowVideo] = useState(false);
   const videoId = video.snippet.resourceId.videoId;
 
+  const isChecked = completedVideos.has(video.snippet.resourceId.videoId);
+
   const handleTitleClick = () => {
     setShowVideo(!showVideo);
   };
@@ -62,27 +64,21 @@ const VideoItem = ({ video, markVideoAsCompleted, completedVideos, id }) => {
           </span>
         </div>
       </div>
-      {completedVideos.has(video.snippet.resourceId.videoId) ? (
+      <div className="flex items-center justify-end">
         <input
           type="checkbox"
-          checked={completedVideos.has(video.snippet.resourceId.videoId)}
+          checked={isChecked}
           onChange={() =>
-            markVideoAsCompleted(video.snippet.resourceId.videoId, id, false)
+            markVideoAsCompleted(
+              video.snippet.resourceId.videoId,
+              id,
+              !isChecked
+            )
           }
-          className="w-10 mx-4 mt-4 sm:mt-0 cursor-pointer"
-          title="mark video as incomplete"
+          className="w-10 h-10 cursor-pointer accent-teal-500 shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)]"
+          title={`mark video as ${isChecked ? "incomplete" : "completed"}`}
         />
-      ) : (
-        <input
-          type="checkbox"
-          checked={completedVideos.has(video.snippet.resourceId.videoId)}
-          onChange={() =>
-            markVideoAsCompleted(video.snippet.resourceId.videoId, id, true)
-          }
-          className="w-10 mx-4 mt-4 sm:mt-0 cursor-pointer"
-          title="mark video as completed"
-        />
-      )}
+      </div>
     </li>
   );
 };
