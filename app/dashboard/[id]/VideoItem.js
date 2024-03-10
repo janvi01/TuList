@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link";
 
 const VideoItem = ({ video, markVideoAsCompleted, completedVideos, id }) => {
   const [showVideo, setShowVideo] = useState(false);
@@ -17,17 +18,18 @@ const VideoItem = ({ video, markVideoAsCompleted, completedVideos, id }) => {
     >
       <div className="flex items-center justify-center sm:justify-start mb-4 sm:mb-0">
         <span className="m-4 text-white">{video.snippet.position + 1}.</span>
-        <a
+        <Link
           href={`https://www.youtube.com/watch?v=${videoId}`}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Video Link"
         >
           <img
             className="h-24 w-24 rounded-full bg-gray-50"
             src={video.snippet.thumbnails.high.url}
             alt="Video Thumbnail"
           />
-        </a>
+        </Link>
       </div>
       <div className="flex flex-col flex-grow">
         <span

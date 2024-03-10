@@ -1,8 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { UserAuth } from "../context/AuthContext";
-import PlaylistInput from "./playlist/PlaylistInput";
 import Spinner from "../components/Spinner";
+import dynamic from "next/dynamic";
+
+// Large component
+const PlaylistInputComponent = dynamic(
+  () => import("./playlist/PlaylistInput"),
+  {
+    loading: () => <p className="text-white">Loading...</p>,
+  }
+);
 
 const Page = () => {
   const { user } = UserAuth();
@@ -30,7 +38,7 @@ const Page = () => {
             You are logged in to the Dashboard page - a protected route. Please
             add your playlists below.
           </p>
-          <PlaylistInput />
+          <PlaylistInputComponent />
         </div>
       ) : null}
       {!user && !loading && (
