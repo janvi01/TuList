@@ -28,6 +28,7 @@ const VideoItem = ({ video, markVideoAsCompleted, completedVideos, id }) => {
             className="h-24 w-24 rounded-full bg-gray-50"
             src={video.snippet.thumbnails.high.url}
             alt="Video Thumbnail"
+            loading="lazy"
           />
         </Link>
       </div>

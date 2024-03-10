@@ -17,6 +17,7 @@ const PlaylistItem = ({ playlist, playlistDetails, onDeletePlaylist }) => {
             className="bg-blue-600 rounded-t-xl"
             src={playlistDetails[playlist.url].thumbnailUrl}
             alt="Playlist Thumbnail"
+            loading="lazy"
           />
           <div className="p-4 md:p-6">
             <span className="block mb-1 text-xs font-semibold uppercase text-blue-600 dark:text-blue-500">

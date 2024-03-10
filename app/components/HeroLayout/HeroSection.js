@@ -58,6 +58,7 @@ function HeroSection() {
             height={"auto"}
             alt="TuList Demo"
             priority={true}
+            loading="lazy"
             className="mt-8 object-cover shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] rounded-3xl"
           />
         </div>
