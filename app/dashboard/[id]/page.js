@@ -187,8 +187,9 @@ const PlaylistDetails = ({ params: { id } }) => {
     <div className="flex flex-col w-full items-center min-h-screen ">
       <PlaylistHeader
         totalDuration={totalDuration}
-        totalVideos={videos.length}
         totalCompletedVideos={completedVideos.size}
+        videos={videos}
+        setVideos={setVideos}
       />
       <VideoList
         videos={videos}
