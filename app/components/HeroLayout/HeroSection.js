@@ -15,7 +15,6 @@ function HeroSection() {
             Manager
           </span>
         </h1>
-        <YoutubeIcon h={16} w={16} color={"red"} />
       </div>
 
       <div className="mt-5 text-center max-w-3xl mx-auto">
