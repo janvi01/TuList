@@ -15,20 +15,15 @@ export default function RootLayout({ children }) {
           content="A Youtube Playlist Manager to keep all your YouTube playlists at one place. Get started now."
           key="desc"
         />
-        <meta property="og:description" content="A Youtube Playlist Manager." />
-        <meta property="og:image" content="/preview.png" />
-        <meta property="og:url" content="https://tulist-web.vercel.app/" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="TuList 🚀" />
         <meta
-          name="twitter:description"
-          content="A Youtube Playlist Manager to keep all your YouTube playlists at one place. Get started now."
+          property="og:description"
+          content="A Youtube Playlist Manager to keep all your YouTube playlists at one place."
         />
         <meta
-          name="twitter:image"
+          property="og:image"
           content="https://tulist-web.vercel.app/preview.png"
         />
-        <meta name="twitter:site" content="@janvibajo01" />
+        <meta property="og:url" content="https://tulist-web.vercel.app/" />
       </head>
       <body className="bg-gradient-to-r from-slate-900 to-stone-800">
         <AuthContextProvider>

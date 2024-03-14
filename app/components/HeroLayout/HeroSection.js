@@ -2,18 +2,20 @@
 import { UserAuth } from "@/app/context/AuthContext";
 import Image from "next/image";
 import Demo from "../../assets/demo.png";
+import YoutubeIcon from "../YoutubeIcon";
 
 function HeroSection() {
   const { handleSignIn } = UserAuth();
   return (
     <div className="text-white max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10">
-      <div className="text-center max-w-3xl mx-auto">
+      <div className="text-center flex gap-2 max-w-4xl mx-auto items-center justify-center">
         <h1 className="font-bold text-4xl md:text-5xl lg:text-6xl">
           YouTube Playlist{" "}
           <span className="bg-clip-text bg-gradient-to-tl from-blue-600 to-violet-600 text-transparent">
             Manager
           </span>
         </h1>
+        <YoutubeIcon h={16} w={16} color={"red"} />
       </div>
 
       <div className="mt-5 text-center max-w-3xl mx-auto">
@@ -55,7 +57,7 @@ function HeroSection() {
           <Image
             src={Demo}
             width={900}
-            height={600}
+            height="auto"
             alt="TuList Demo"
             priority={true}
             className="object-cover shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] rounded-3xl"

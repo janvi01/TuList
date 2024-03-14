@@ -2,32 +2,32 @@ import {
   ArrowPathIcon,
   CloudArrowUpIcon,
   CheckIcon,
+  AdjustmentsHorizontalIcon,
 } from "@heroicons/react/24/outline";
 import { useMemo } from "react";
 
 const featuresList = [
   {
-    name: "Add Playlist just by adding URL",
+    name: "Add and Watch Playlist just by adding URL",
     description:
-      "Add Playlist just by adding Playlist URL or video URL of the Playlist it is part of.",
+      "Add and watch all your YouTube playlists in one place by pasting the URL, whether it's a direct playlist URL or a video URL within the playlist.",
     icon: CloudArrowUpIcon,
   },
   {
-    name: "Mark videos as completed",
-    description: "You can mark your videos as completed.",
-    icon: CheckIcon,
-  },
-  {
-    name: "Get time stats related to the Playlist.",
+    name: "Get Videos Stats",
     description:
-      "Track how much time you need to devote more to complete the Playlist.",
+      "Gain insights into the total duration of playlists, likes, views, total videos, etc. count of your Playlist.",
     icon: ArrowPathIcon,
   },
   {
-    name: "Coming soon!",
-    description:
-      "Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.",
+    name: "Mark as watched",
+    description: "Mark your videos as watched in one click.",
     icon: CheckIcon,
+  },
+  {
+    name: "Sort Videos of the Playlist",
+    description: "Sort videos based on the likes, views count, etc.",
+    icon: AdjustmentsHorizontalIcon,
   },
 ];
 
@@ -64,7 +64,7 @@ export default function Features() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
           <h2 className="text-base font-semibold leading-7 text-indigo-600">
-            Track effortlessly
+            Follow YouTube Playlist at ease
           </h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
             What TuList can do?

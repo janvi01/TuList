@@ -3,6 +3,7 @@ import { UserAuth } from "../context/AuthContext";
 import { UserIcon } from "@heroicons/react/24/outline";
 import Spinner from "./Spinner";
 import Link from "next/link";
+import YoutubeIcon from "./YoutubeIcon";
 
 const Navbar = () => {
   const { user, handleSignIn, handleSignOut } = UserAuth();
@@ -31,10 +32,10 @@ const Navbar = () => {
         <div className="flex items-center justify-center">
           <Link
             href="/"
-            className="flex-none text-2xl font-semibold text-white"
+            className="flex gap-2 text-2xl font-semibold text-white"
             aria-label="TuList Heading"
           >
-            TuList 🚀
+            TuList <YoutubeIcon h={8} w={8} color={"blue"} />
           </Link>
         </div>
         <div className="flex flex-row gap-4 mt-0 items-center justify-center md:justify-end md:gap-y-0 md:mt-0 md:ps-7">
