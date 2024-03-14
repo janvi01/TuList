@@ -1,6 +1,6 @@
 # TuList 🚀
 
-TuList is an intuitive platform built to track and organize your YouTube playlist videos in a better way. Whether you're following a course, keeping up with a web series, or simply curating your favorite videos, TuList simplifies the process all at one place.
+TuList is an intuitive platform that tracks and organizes your YouTube playlist videos better. Whether you're following a course, keeping up with a web series, or simply curating your favorite videos, TuList simplifies the process all at one place.
 
 ## Demo
 
@@ -23,13 +23,12 @@ TuList is an intuitive platform built to track and organize your YouTube playlis
 The following technologies and libraries are used for the development of this
 project.
 
-- Next.js
-- Next-Auth
-- Firebase
-- Tailwind CSS
-- Youtube API
-- Heroicons
-- Vercel
+- [Next.js](https://nextjs.org/)
+- [Firebase](https://firebase.google.com/) - Firestore, Authentication
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Youtube API](https://developers.google.com/youtube)
+- [Heroicons](https://heroicons.com/)
+- [Vercel](https://vercel.com/)
 
 ## Coming Soon
 
