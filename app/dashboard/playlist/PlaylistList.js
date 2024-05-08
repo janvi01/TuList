@@ -97,16 +97,23 @@ const PlaylistList = ({ playlists, onDeletePlaylist }) => {
       <h2 className="text-4xl font-semibold mb-4 text-center text-white">
         PLAYLISTS
       </h2>
-      <div className="flex flex-col flex-wrap lg:flex-row justify-center gap-8 items-center py-2">
+      {playlists.length == 0 && !loading ? (
+        <p class="mt-6 text-lg leading-8 text-gray-600 mb-4">
+          This playlist seems to have gone on a vacation! Quick, hit "Add
+          Playlist" and bring it back from its tropical retreat!
+        </p>
+      ): (
+        <div className="flex flex-col flex-wrap lg:flex-row justify-center gap-8 items-center py-2">
         {playlists.map((playlist) => (
           <PlaylistItem
-            key={playlist.id}
-            playlist={playlist}
-            playlistDetails={playlistDetails}
-            onDeletePlaylist={onDeletePlaylist}
+          key={playlist.id}
+          playlist={playlist}
+          playlistDetails={playlistDetails}
+          onDeletePlaylist={onDeletePlaylist}
           />
         ))}
       </div>
+      )}
     </div>
   );
 };
